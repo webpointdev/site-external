@@ -1,6 +1,6 @@
 {
-  "name": "koa2-startkit",
-  "version": "0.2.0",
+  "name": "rax-site-external",
+  "version": "0.1.0",
   "author": "wssgcg1213",
   "scripts": {
     "start": "node bin/development.js",
@@ -36,7 +36,12 @@
     "koa-router": "^7.0.0",
     "koa-static-plus": "^0.1.1",
     "koa-views": "^5.0.1",
-    "lodash": "^4.11.1"
+    "lodash": "^4.17.4",
+    "mysql": "^2.13.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "sequelize": "^3.30.2",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.4",
@@ -52,7 +57,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/17koa/koa2-startkit.git"
+    "url": "git+https://github.com/wssgcg1213/rax-site-external.git"
   },
-  "license": "MIT"
+  "license": "BSD-3-Clause"
 }
