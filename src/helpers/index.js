@@ -60,7 +60,7 @@ function getComboUrl(depLibs = [], env) {
         return `${npm.name}/${version}/${filename}`;
       }).join(',');
 
-      const comboUrl = `http://g.alicdn.com/code/npm/??${comboPath}`;
+      const comboUrl = `https://g.alicdn.com/code/npm/??${comboPath}`;
 
       debug('comboUrl', comboUrl);
       return comboUrl;
@@ -160,7 +160,7 @@ function getLibVersion(lib) {
 
 function checkCdnVersion(lib, version, callback) {
 
-  const cdnUrl = `http://g.alicdn.com/code/npm/${lib}/${version}/index.cmd.js`;
+  const cdnUrl = `https://g.alicdn.com/code/npm/${lib}/${version}/index.cmd.js`;
 
   request(cdnUrl, (err, res, body) => {
 
