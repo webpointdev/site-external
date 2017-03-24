@@ -11,10 +11,10 @@ import {
 const router = Router()
 
 router.get('/bundle/:uuid/bundle.js', getBundleJsCtrl)
-router.post('/api/playground/new', newCtrl)
-router.get('/api/playground/edit', editCtrl)
 router.get('/api/playground/combourl', getComboUrlCtrl)
+router.post('/api/playground/new', newCtrl)
 router.get('/api/playground/:uuid', getCtrl)
+router.post('/api/playground/:uuid', editCtrl)
 router.get('*', indexCtrl)
 
 export default router
