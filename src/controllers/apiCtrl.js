@@ -53,7 +53,7 @@ export const newCtrl = async (ctx, next) => {
 }
 
 export const editCtrl = async (ctx, next) => {
-  const uuid = ctx.query.uuid
+  const { uuid } = ctx.params
   const body = ctx.request.body
 
   const data = await Playground.findOne({

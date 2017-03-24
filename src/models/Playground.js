@@ -7,7 +7,7 @@ export default db.define('Playgound', {
     autoIncrement: true
   },
   uuid: {
-    type: db.Sequelize.INTEGER,
+    type: db.Sequelize.STRING(50),
     allowNull: false,
     comment: 'uuid'
   },
