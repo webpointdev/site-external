@@ -1,5 +1,6 @@
 import UUID from 'uuid'
 import Playground from '../models/Playground'
+import request from 'request-promise'
 import {
   generateBundleContent,
   getComboUrl,
@@ -82,5 +83,30 @@ export const getComboUrlCtrl = async (ctx, next) => {
   ctx.body = {
     status: 'success',
     comboUrl: comboUrl
+  }
+}
+
+const githubIssueAPICache = {};
+export const issuesCtrl = async (ctx, next) => {
+  const url = 'https://api.github.com/repos/alibaba/rax/issues?state=all'
+  const headers = {
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12A365 MicroMessenger/5.4.1 NetType/WIFI'
+  }
+  // 强资源缓存
+  if (githubIssueAPICache['etag']) {
+    headers['If-None-Match'] = githubIssueAPICache['etag']
+  }
+  try {
+    const result = await request(url, { headers, resolveWithFullResponse: true })
+    ctx.set('X-RateLimit-Remaining', result.headers['X-RateLimit-Remaining'.toLowerCase()])
+    ctx.set('X-RateLimit-Reset', result.headers['X-RateLimit-Reset'.toLowerCase()])
+    githubIssueAPICache['etag'] = result.headers['etag']
+    ctx.body = githubIssueAPICache.body = String(result.body)
+  } catch(err) {
+    if (/^304/.test(err.message)) {
+      ctx.body = githubIssueAPICache.body
+    } else {
+      throw err
+    }
   }
 }
