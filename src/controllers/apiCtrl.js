@@ -32,7 +32,8 @@ export const getCtrl = async (ctx, next) => {
     status: 'success',
     sourceCode: data.sourceCode,
     compilerCode: data.compilerCode,
-    depLibs: data.depLibs
+    depLibs: data.depLibs,
+    sourceCSS: data.sourceCSS
   }
 }
 
@@ -44,7 +45,8 @@ export const newCtrl = async (ctx, next) => {
     uuid: uuid,
     sourceCode: body.sourceCode,
     compilerCode: body.compilerCode,
-    depLibs: body.depLibs
+    depLibs: body.depLibs,
+    sourceCSS: body.sourceCSS
   })
 
   ctx.body = {
@@ -65,7 +67,8 @@ export const editCtrl = async (ctx, next) => {
   await data.update({
     sourceCode: body.sourceCode,
     compilerCode: body.compilerCode,
-    depLibs: body.depLibs
+    depLibs: body.depLibs,
+    sourceCSS: body.sourceCSS
   })
 
   ctx.body = {

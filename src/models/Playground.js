@@ -22,6 +22,12 @@ export default db.define('Playgound', {
     comment: '源代码',
     field: 'source_code'
   },
+  sourceCSS: {
+    type: db.Sequelize.TEXT,
+    defaultValue: '',
+    comment: '源CSS代码',
+    field: 'source_css'
+  },
   compilerCode: {
     type: db.Sequelize.TEXT,
     allowNull: false,
