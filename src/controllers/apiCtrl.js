@@ -31,7 +31,7 @@ export async function getBundleHtmlCtrl(ctx, next) {
   const compilerCode = transformCompilerCode(data.compilerCode)
   const comboUrl = await getComboUrl(data.depLibs, 'web')
 
-  await this.render('h5-playground', {
+  await ctx.render('h5-playground', {
     code: compilerCode,
     comboUrl: comboUrl
   })
