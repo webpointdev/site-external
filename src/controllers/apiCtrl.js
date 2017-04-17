@@ -22,6 +22,21 @@ export const getBundleJsCtrl = async (ctx, next) => {
   ctx.body = jsContent
 }
 
+export async function getBundleHtmlCtrl(ctx, next) {
+  const { uuid } = ctx.params
+  const data = await Playground.findOne({
+    where: { uuid }
+  })
+
+  const compilerCode = transformCompilerCode(data.compilerCode)
+  const comboUrl = await getComboUrl(data.depLibs, 'web')
+
+  await this.render('h5-playground', {
+    code: compilerCode,
+    comboUrl: comboUrl
+  })
+}
+
 export const getCtrl = async (ctx, next) => {
   const { uuid } = ctx.params
   const data = await Playground.findOne({
@@ -77,11 +92,11 @@ export const editCtrl = async (ctx, next) => {
 }
 
 export const getComboUrlCtrl = async (ctx, next) => {
-  const deps = ctx.query.deps;
-
+  const deps = ctx.query.deps
+  const env = ctx.query.env || 'native'
   debug('getComboUrl', ctx.query)
 
-  const comboUrl = await getComboUrl(deps)
+  const comboUrl = await getComboUrl(deps, env)
 
   ctx.body = {
     status: 'success',

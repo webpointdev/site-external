@@ -1,10 +1,7 @@
 import request from 'request'
 const debug = require('debug')('rax:bundle')
 
-const customVersions = {
-  'universal-panresponder': '0.2.3',
-  'universal-env': '0.2.3'
-}
+const customVersions = {}
 
 export {
   getComboUrl,
@@ -200,12 +197,17 @@ function getDeps(libs) {
             let deps = body[key].requires;
             result.deps = deps.concat(result.deps);
 
-            // 解析依赖的依赖
-            deps.forEach((dep) => {
-              if (body[dep] && body[dep].requires) {
-                result.deps = body[dep].requires.concat(result.deps);
+            ;(function parseDepsDFS(deps) {
+              // 解析依赖的依赖
+              if (Array.isArray(deps)) {
+                deps.forEach((dep) => {
+                  if (body[dep] && body[dep].requires) {
+                    parseDepsDFS(body[dep].requires);
+                    result.deps = body[dep].requires.concat(result.deps);
+                  }
+                });
               }
-            });
+            })(deps);
 
             debug('getLibDeps success', lib, result);
 
@@ -236,8 +238,8 @@ function getDeps(libs) {
         const relatedLibs = libToDeps[lib.name].map((dep) => {
           return {
             // npm/@ali/rax-components/1.1.8/index.cmd
-            name: dep.match(/npm\/(.*)\/\d/)[1],
-            version: dep.match(/\/(\d\.\d\.\d)\//)[1]
+            name: dep.match(/npm\/(.*)\/\d+/)[1],
+            version: dep.match(/\/(\d+\.\d+\.\d+)\//)[1]
           };
         });
         relatedLibs.push(lib);

@@ -7,7 +7,7 @@ let configTimeout = 0
 async function getRemoteVersion(timeout = 5 * 60 * 1000) {
   let result = '';
   if (configTimeout < Date.now()) {
-    const remoteConfig = await requsest(CONFIG_URL, { json: true })
+    const remoteConfig = await requsest(CONFIG_URL + '?random=' + Math.random(), { json: true })
     if (remoteConfig && remoteConfig.assetsVersion) {
       result = remoteConfig.assetsVersion
       configCache = remoteConfig

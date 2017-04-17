@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <title>Rax Playground H5 Preview</title>
+  <style>
+    body {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      position: absolute;
+      top: 0; bottom: 0; left: 0; right: 0;
+      margin: 0;
+    }
+    #error-message {
+      position: fixed; top: 0; left: 0; width: 100%; color: red; background: #fff; z-index: 10; font-size: 40px;
+    }
+   </style>
+</head>
+<body>
+  <div id="error-message"></div>
+  <script src="//g.alicdn.com/??/code/npm/web-rax-framework/0.2.3/dist/framework.web.min.js"></script>
+  <script src="<%= comboUrl %>"></script>
+  <script>
+    var $error = document.querySelector('#error-message');
+    window.onerror = function(errMessage) {
+      console.error('执行代码错误', errMessage);
+      $error.innerHTML = errMessage;
+    };
+    <%= code %>
+  </script>
+</body>
+</html>
