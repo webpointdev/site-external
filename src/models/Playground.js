@@ -6,6 +6,11 @@ export default db.define('Playgound', {
     primaryKey: true,
     autoIncrement: true
   },
+  forkId: {
+    type: db.Sequelize.STRING,
+    field: 'fork_id',
+    allowNull: true
+  },
   uuid: {
     type: db.Sequelize.STRING(50),
     allowNull: false,

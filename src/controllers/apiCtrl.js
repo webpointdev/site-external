@@ -70,6 +70,24 @@ export const newCtrl = async (ctx, next) => {
   }
 }
 
+export const forkCtrl = async (ctx, next) => {
+  const uuid = ctx.params.uuid;
+  const sourceData = await Playground.findOne({
+    where: {uuid}
+  });
+  const newData = Object.assign({}, sourceData.get({plain: true}), {
+    uuid: UUID.v4(),
+    forkId: uuid,
+    id: null
+  });
+
+  const result = await Playground.create(newData);
+  ctx.body = {
+    status: 'success',
+    uuid: result.uuid
+  };
+}
+
 export const editCtrl = async (ctx, next) => {
   const { uuid } = ctx.params
   const body = ctx.request.body
