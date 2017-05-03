@@ -7,7 +7,7 @@ import {
   transformCompilerCode
 } from '../helpers'
 
-const debug = require('debug')('rax:playground');
+const debug = require('debug')('rax:playground')
 
 export const getBundleJsCtrl = async (ctx, next) => {
   const { uuid } = ctx.params
@@ -71,21 +71,41 @@ export const newCtrl = async (ctx, next) => {
 }
 
 export const forkCtrl = async (ctx, next) => {
-  const uuid = ctx.params.uuid;
+  const { uuid } = ctx.params
   const sourceData = await Playground.findOne({
-    where: {uuid}
-  });
-  const newData = Object.assign({}, sourceData.get({plain: true}), {
-    uuid: UUID.v4(),
-    forkId: uuid,
-    id: null
-  });
+    where: { uuid }
+  })
+  if (!uuid || !sourceData) {
+    ctx.body = {
+      status: 'error',
+      message: 'invalid uuid'
+    }
+    return
+  }
 
-  const result = await Playground.create(newData);
-  ctx.body = {
-    status: 'success',
-    uuid: result.uuid
-  };
+  const newData = {
+    ...sourceData.get({ plain: true} ),
+    ...{
+      uuid: UUID.v4(),
+      forkId: uuid,
+      id: null
+    }
+  }
+
+  try {
+    const result = await Playground.create(newData)
+    ctx.body = {
+      status: 'success',
+      uuid: result.uuid
+    }
+  } catch(err) {
+    ctx.body = {
+      status: 'error',
+      message: err.message,
+      stack: err.stack
+    }
+  }
+  
 }
 
 export const editCtrl = async (ctx, next) => {
